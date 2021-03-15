@@ -26,7 +26,7 @@ abstract class Races {
     if (_header.containsKey('88') == false) {
       final reqRace = 'https://www.strava.com/api/v3/running_races/' + id;
 
-      var rep = await http.get(reqRace, headers: _header);
+      var rep = await http.get(Uri.tryParse(reqRace), headers: _header);
       if (rep.statusCode == 200) {
         globals.displayInfo('Race info ${rep.body}');
         final Map<String, dynamic> jsonResponse = json.decode(rep.body);
@@ -60,13 +60,13 @@ abstract class Races {
       final reqList =
           'https://www.strava.com/api/v3/running_races?year=' + year;
 
-      var rep = await http.get(reqList, headers: _header);
+      var rep = await http.get(Uri.tryParse(reqList), headers: _header);
       if (rep.statusCode == 200) {
         // globals.displayInfo('List races info ${rep.body}');
         var jsonResponse = json.decode(rep.body);
 
         if (jsonResponse != null) {
-          List<RunningRace> _listRaces = List<RunningRace>();
+          List<RunningRace> _listRaces = <RunningRace>[];
 
           jsonResponse.forEach((element) {
             var _race = RunningRace.fromJson(element);

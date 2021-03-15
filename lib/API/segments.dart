@@ -26,7 +26,7 @@ abstract class Segments {
 
     if (_header.containsKey('88') == false) {
       final reqSeg = 'https://www.strava.com/api/v3/segments/' + id;
-      var rep = await http.get(reqSeg, headers: _header);
+      var rep = await http.get(Uri.tryParse(reqSeg), headers: _header);
       if (rep.statusCode == 200) {
         globals.displayInfo(rep.statusCode.toString());
         globals.displayInfo('Segment info ${rep.body}');
@@ -68,7 +68,7 @@ abstract class Segments {
     if (_header.containsKey('88') == false) {
       final reqSeg =
           'https://www.strava.com/api/v3/segments/starred?page=1&per_page=50';
-      var rep = await http.get(reqSeg, headers: _header);
+      var rep = await http.get(Uri.tryParse(reqSeg), headers: _header);
       if (rep.statusCode == 200) {
         globals.displayInfo(rep.statusCode.toString());
         globals.displayInfo('List starred segments  info ${rep.body}');
@@ -124,7 +124,7 @@ abstract class Segments {
     int _perPage = 50; // Number of activities retrieved per http request
     bool isRetrieveDone = false;
     int _nbEntries = 0;
-    List<Entries> _listEntries = List<Entries>();
+    List<Entries> _listEntries = <Entries>[];
 
     globals.displayInfo('Entering getLeaderboardBySegmentId');
 
@@ -156,7 +156,8 @@ abstract class Segments {
             '&context_entries=' +
             '&page=$_pageNumber&per_page=$_perPage';
 
-        var rep = await http.get(reqLeaderboard, headers: _header);
+        var rep =
+            await http.get(Uri.tryParse(reqLeaderboard), headers: _header);
 
         if (rep.statusCode == 200) {
           globals.displayInfo(rep.statusCode.toString());
@@ -223,7 +224,7 @@ abstract class Segments {
           id.toString() +
           '/starred?starred=' +
           star.toString();
-      var rep = await http.put(reqStar, headers: _header);
+      var rep = await http.put(Uri.tryParse(reqStar), headers: _header);
 
       // var uri = Uri.https('www.strava.com', path);
 

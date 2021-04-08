@@ -31,12 +31,12 @@ abstract class Auth {
   Future<void> _saveToken(String token, int expiresAt, int expiresIn,
       String scope, String refreshToken) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('strava_accessToken', token);
-    prefs.setInt('strava_expiresAt', expiresAt); // Stored in seconds
+    prefs.setString('strava_accessToken', token ?? '');
+    prefs.setInt('strava_expiresAt', expiresAt ?? 0); // Stored in seconds
     prefs.setInt('strava_expiresIn',
-        expiresIn); // Value is valid at the time the token has been issued
-    prefs.setString('strava_scope', scope);
-    prefs.setString('strava_refreshToken', refreshToken);
+        expiresIn ?? 0); // Value is valid at the time the token has been issued
+    prefs.setString('strava_scope', scope ?? '');
+    prefs.setString('strava_refreshToken', refreshToken ?? '');
 
     // Save also in globals to get direct access
     globals.token.accessToken = token;
